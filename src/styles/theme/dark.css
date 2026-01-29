@@ -1,0 +1,24 @@
+:root[theme-mode='dark'] {
+    /* 自由基 */
+    --kbj-font-white-1: rgba(255, 255, 255, 0.9);
+    --kbj-font-white-2: rgba(255, 255, 255, 0.55);
+    --kbj-font-white-3: rgba(255, 255, 255, 0.35);
+    --kbj-font-white-4: rgba(255, 255, 255, 0.22);
+    --kbj-font-gray-1: rgba(0, 0, 0, 0.9);
+    --kbj-font-gray-2: rgba(0, 0, 0, 0.6);
+    --kbj-font-gray-3: rgba(0, 0, 0, 0.4);
+    --kbj-font-gray-4: rgba(0, 0, 0, 0.26);
+
+    /* 文本 */
+    --kbj-text-color-primary: var(--kbj-font-white-1);
+    --kbj-text-color-secondary: var(--kbj-font-white-2);
+    --kbj-text-color-placeholder: var(--kbj-font-white-3);
+    --kbj-text-color-disabled: var(--kbj-font-white-4);
+    --kbj-text-color-anti: #fff;
+    --kbj-text-color-brand: var(--kbj-brand-color-8); 
+    --kbj-text-color-link: var(--kbj-brand-color-8);
+
+    /* 背景 */
+    --kbj-font-color-hover: rgb(51, 54, 57);
+    --kbj-bg-color-container: rgb(24, 24, 28);
+}

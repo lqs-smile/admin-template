@@ -1,0 +1,19 @@
+@import 'normalize.css';
+@import 'tdesign-vue-next/es/style/index.css';
+@import 'nprogress/nprogress.css'; /* Progress 进度条样式 */
+@import './scrollbar.css';
+@import './theme';
+
+#app {
+    height: 100vh;
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+    /* 关闭默认动画 */
+    animation: none;
+}
+
+:root[theme-mode='dark']::view-transition-old(root) {
+    z-index: 100;
+}

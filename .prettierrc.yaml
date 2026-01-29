@@ -1,0 +1,7 @@
+printWidth: 100 # 每行字符长度
+tabWidth: 4 # 缩进空格数
+singleQuote: true # 单引号
+semi: false # 分号
+trailingComma: none # 尾随逗号
+bracketSpacing: true # {大括号内是否有空格}
+endOfLine: lf # 换行符
