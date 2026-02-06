@@ -1,36 +1,42 @@
 <template>
     <div class="setting-container">
-        <!-- 左侧菜单快捷是搜索 -->
-        <div class="setting-item menu-search">
-            <SvgIcon className="search-icon" name="search" size="16px" />
-            <span class="search-text">搜索</span>
-            <div class="hotkey">Ctrl<span>k</span></div>
-        </div>
-        <!-- 暗黑模式 -->
-        <div class="setting-item" @click="changeWeatcher">
-            <SvgIcon className="mode-icon" :name="mode ? 'sun' : 'dark'" size="22px" />
-        </div>
-        <!-- 主题 -->
-        <div class="setting-item">
-            <t-popup position="bottom" showArrow trigger="click">
-                <template #content>
-                    <ColorPiker />
-                </template>
-                <SvgIcon className="theme-icon" name="theme" size="20px" />
-            </t-popup>
-        </div>
-        <!-- 刷新 -->
-        <div class="setting-item" @click="changeRefresh">
-            <SvgIcon
-                :className="`refresh-icon ${refreshIconRotate ? 'refresh-icon-rotate' : ''}`"
-                name="refresh"
-                size="20px"
-            />
-        </div>
-        <!-- 全屏 -->
-        <div class="setting-item" @click="changeFullscreen">
-            <SvgIcon className="full-icon" :name="isFullscreen ? 'off-full' : 'full'" size="16px" />
-        </div>
+        <t-space align="center" size="8px">
+            <!-- 左侧菜单快捷是搜索 -->
+            <div class="menu-search">
+                <SvgIcon className="search-icon" name="search" size="16px" />
+                <span class="search-text">搜索</span>
+                <div class="hotkey">Ctrl<span>k</span></div>
+            </div>
+            <!-- 暗黑模式 -->
+            <div class="setting-item" @click="changeWeatcher">
+                <SvgIcon className="mode-icon" :name="mode ? 'sun' : 'dark'" size="22px" />
+            </div>
+            <!-- 主题 -->
+            <div class="setting-item">
+                <t-popup position="bottom" showArrow trigger="click">
+                    <template #content>
+                        <ColorPiker />
+                    </template>
+                    <SvgIcon className="theme-icon" name="theme" size="20px" />
+                </t-popup>
+            </div>
+            <!-- 刷新 -->
+            <div class="setting-item" @click="changeRefresh">
+                <SvgIcon
+                    :className="`refresh-icon ${refreshIconRotate ? 'refresh-icon-rotate' : ''}`"
+                    name="refresh"
+                    size="20px"
+                />
+            </div>
+            <!-- 全屏 -->
+            <div class="setting-item" @click="changeFullscreen">
+                <SvgIcon
+                    className="full-icon"
+                    :name="isFullscreen ? 'off-full' : 'full'"
+                    size="16px"
+                />
+            </div>
+        </t-space>
     </div>
 </template>
 
@@ -93,15 +99,26 @@ const refreshIconRotate = ref(false)
 .setting-item {
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    justify-content: center;
     user-select: none;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    padding: 8px;
+    border-radius: 50%;
     &:hover {
         transform: scale(1.15);
+        background-color: var(--td-brand-color-light) !important;
+        & > svg {
+            color: var(--td-brand-color);
+        }
+    }
+    & > svg {
+        margin-right: 0;
     }
 }
 .menu-search {
+    cursor: pointer;
+    user-select: none;
     color: var(--td-text-color-secondary);
     font-size: 14px;
     display: flex;
@@ -138,7 +155,7 @@ const refreshIconRotate = ref(false)
     color: var(--td-text-color-secondary);
 }
 .refresh-icon {
-    color: red;
+    color: var(--td-text-color-secondary);
 }
 
 // 刷新icon旋转动画

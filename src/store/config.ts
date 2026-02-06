@@ -7,7 +7,7 @@ import { Color } from 'tvision-color'
 export const useConfigStore = defineStore('config', {
     state: () => ({
         isDarkMode: true,
-        brandTheme: 'FF0000', // 主题色
+        brandTheme: '0052d9', // 主题色
         colorList: {} as any
     }),
     getters: {},
