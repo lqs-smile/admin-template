@@ -1,6 +1,6 @@
 @import 'normalize.css';
 @import 'tdesign-vue-next/es/style/index.css';
-@import 'nprogress/nprogress.css'; /* Progress 进度条样式 */
+@import './nprogress.css'; /* Progress 进度条样式 */
 @import './scrollbar.css';
 @import './theme';
 

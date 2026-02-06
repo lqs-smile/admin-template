@@ -25,7 +25,7 @@ onMounted(() => {
     getBreadcrumb()
 })
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 // :deep(.t-breadcrumb__inner-text) {
 //     font-weight: 500;
 //     font-size: 16px;

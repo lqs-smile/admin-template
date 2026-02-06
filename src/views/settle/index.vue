@@ -40,6 +40,10 @@
 
 <script setup lang="jsx">
 import { ref } from 'vue'
+
+defineOptions({
+    name: 'Settle'
+})
 // import {
 //     ErrorCircleFilledIcon,
 //     CheckCircleFilledIcon,
@@ -110,9 +114,10 @@ const pagination = {
     total
 }
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .settle-container {
     padding: 20px;
     box-sizing: border-box;
+    background-color: var(--td-bg-color-container);
 }
 </style>

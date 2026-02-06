@@ -15,7 +15,7 @@
 import Account from './components/Account.vue'
 import BG from '@/assets/login_bg.png'
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .login-wrap {
     /* overflow: scroll; */
     width: 100vw;

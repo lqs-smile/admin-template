@@ -1,10 +1,14 @@
+import { generateColorMap, insertThemeStylesheet } from '@/utils/color'
 import { defineStore } from 'pinia'
+import { Color } from 'tvision-color'
 
 // interface UserState {}
 
 export const useConfigStore = defineStore('config', {
     state: () => ({
-        isDarkMode: true
+        isDarkMode: true,
+        brandTheme: 'FF0000', // 主题色
+        colorList: {} as any
     }),
     getters: {},
     actions: {
@@ -17,6 +21,12 @@ export const useConfigStore = defineStore('config', {
 
             transition.ready.then(() => {
                 // 由于我们要从鼠标点击的位置开始做动画，所以我们需要先获取到鼠标的位置
+
+                this.changeBrandTheme(this.brandTheme)
+
+                if (!e) {
+                    return
+                }
 
                 const { clientX, clientY } = e
                 // 计算半径，以鼠标点击的位置为圆心，到四个角的距离中最大的那个作为半径
@@ -48,6 +58,35 @@ export const useConfigStore = defineStore('config', {
         // 清除用户信息
         clearData() {
             this.isDarkMode = false
+        },
+        changeBrandTheme(brandTheme: string) {
+            console.log(brandTheme, '主题色')
+            this.brandTheme = brandTheme
+            // 确认模式
+            const mode = this.isDarkMode ? 'dark' : 'right' // auto
+
+            // 以主题色加显示模式作为键
+            const colorKey = `${brandTheme}[${mode}]`
+
+            // let colorMap = this.colorList[colorKey]
+            let colorMap
+
+            // 如果不存在色阶，就需要计算
+            if (colorMap === undefined) {
+                const [{ colors: newPalette, primary: brandColorIndex }] = Color.getColorGradations(
+                    {
+                        colors: [brandTheme],
+                        step: 10,
+                        remainInput: false // 是否保留输入 不保留会矫正不合适的主题色
+                    }
+                )
+                colorMap = generateColorMap(brandTheme, newPalette, mode, brandColorIndex)
+                this.colorList[colorKey] = colorMap
+            }
+            // TODO 需要解决不停切换时有反复插入 style 的问题
+            insertThemeStylesheet(brandTheme, colorMap, mode)
+
+            document.documentElement.setAttribute('theme-color', brandTheme)
         }
     },
     persist: true

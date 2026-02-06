@@ -2,12 +2,14 @@ import { defineStore } from 'pinia'
 import { type Router } from '@/interface/router'
 interface router {
     breadcrumb: Router[]
-    keepAlive: string[]
+    keepAlive: string[] // 已经缓存的标签
+    excludeCachePages: string[] // 不需要被缓存的页面
 }
 export const useRouterStore = defineStore('router', {
     state: (): router => ({
         breadcrumb: [],
-        keepAlive: []
+        keepAlive: [],
+        excludeCachePages: ['Reload']
     }),
     getters: {},
     actions: {
@@ -16,6 +18,12 @@ export const useRouterStore = defineStore('router', {
         },
         setKeepAlive(keepAlive: string[]) {
             this.keepAlive = keepAlive
+        },
+        pushKeepAlive(routerName: string) {
+            this.excludeCachePages.push(routerName)
+        },
+        popKeepAlive(routerName: string) {
+            this.excludeCachePages = this.excludeCachePages.filter((item) => item !== routerName)
         },
         // 清除路由信息
         clearData() {

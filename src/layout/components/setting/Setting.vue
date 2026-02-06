@@ -12,31 +12,79 @@
         </div>
         <!-- 主题 -->
         <div class="setting-item">
-            <SvgIcon className="theme-icon" name="theme" size="20px" />
+            <t-popup position="bottom" showArrow trigger="click">
+                <template #content>
+                    <ColorPiker />
+                </template>
+                <SvgIcon className="theme-icon" name="theme" size="20px" />
+            </t-popup>
+        </div>
+        <!-- 刷新 -->
+        <div class="setting-item" @click="changeRefresh">
+            <SvgIcon
+                :className="`refresh-icon ${refreshIconRotate ? 'refresh-icon-rotate' : ''}`"
+                name="refresh"
+                size="20px"
+            />
         </div>
         <!-- 全屏 -->
-        <div class="setting-item">
-            <SvgIcon className="full-icon" name="full" size="16px" />
+        <div class="setting-item" @click="changeFullscreen">
+            <SvgIcon className="full-icon" :name="isFullscreen ? 'off-full' : 'full'" size="16px" />
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useConfigStore } from '@/store/config'
 import SvgIcon from '@/components/svg-icon.vue'
-
+import ColorPiker from '@/layout/components/colorPiker/ColorPiker.vue'
 const store = useConfigStore()
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 onMounted(() => {})
 
 const mode = computed(() => store.isDarkMode)
+
+const isFullscreen = ref(false)
 
 const changeWeatcher = (e: any) => {
     const themeMode = store.isDarkMode
     store.modeChange(!themeMode, e)
 }
+
+const changeFullscreen = (e: any) => {
+    // 网页全屏
+    if (document.fullscreenElement) {
+        document.exitFullscreen()
+        isFullscreen.value = false
+    } else {
+        document.documentElement.requestFullscreen()
+        isFullscreen.value = true
+    }
+}
+
+const changeRefresh = (e: any) => {
+    if (e.ctrlKey) {
+        window.location.reload()
+    } else {
+        // 跳转/reload但是不修改当前url
+        router.push({
+            path: '/reload'
+        })
+        // 刷新icon旋转状态
+        refreshIconRotate.value = true
+        // 刷新完成后，重置旋转状态
+        setTimeout(() => {
+            refreshIconRotate.value = false
+        }, 500)
+    }
+}
+// 刷新icon旋转状态
+const refreshIconRotate = ref(false)
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .setting-container {
     display: flex;
     align-items: center;
@@ -88,5 +136,21 @@ const changeWeatcher = (e: any) => {
 }
 .full-icon {
     color: var(--td-text-color-secondary);
+}
+.refresh-icon {
+    color: red;
+}
+
+// 刷新icon旋转动画
+.refresh-icon-rotate {
+    animation: refresh-icon-rotate 0.5s linear infinite;
+}
+@keyframes refresh-icon-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

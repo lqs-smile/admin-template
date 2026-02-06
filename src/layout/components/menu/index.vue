@@ -36,8 +36,6 @@ import SubMenu from './SubMenu.vue'
 const router = useRouter()
 import SvgIcon from '@/components/svg-icon.vue'
 
-console.log('router.getRoutes()', router.options.routes)
-
 // ==================== 获取适用于menu的路由数组 ====================
 const menuList = router.options.routes[0].children?.filter((item) => {
     return item.meta?.isShow
@@ -46,9 +44,9 @@ const menuList = router.options.routes[0].children?.filter((item) => {
 const collapsed = ref(false)
 </script>
 
-<style lang="scss" scoped>
-// 引入 SCSS 变量文件
-@use '../../layout';
+<style lang="less" scoped>
+// 引入 less 变量文件
+@import '../../layout.less';
 .menu-content {
     height: 100%;
     display: flex;
@@ -58,7 +56,7 @@ const collapsed = ref(false)
 .logo {
     overflow: hidden;
 
-    height: layout.$header-height;
+    height: @header-height;
     font-family: SourceHanSansSC, SourceHanSansSC;
     font-weight: bold;
     font-size: 24px;

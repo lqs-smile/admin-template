@@ -12,15 +12,9 @@ import { useRouterStore } from '@/store/router'
 const loading = ref(false)
 
 router.beforeEach((to, from, next) => {
-    console.log('beforeEach', to, from)
-
-    console.log('keepAlive', useRouterStore().keepAlive)
-    console.log('to.path', to.path)
-
     if (!useRouterStore().keepAlive.find((item) => item.path === to.path)) {
         loading.value = true
     }
-
     next()
 })
 
@@ -32,7 +26,7 @@ router.afterEach((to, from) => {
 
 onMounted(() => {})
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .loading {
     display: flex;
     align-items: center;

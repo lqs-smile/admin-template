@@ -10,10 +10,17 @@ export function useTabList() {
     let tabList = ref([])
 
     // 路由更新之前
-    onBeforeRouteUpdate((to) => {
+    onBeforeRouteUpdate((to, from) => {
         activeTab.value = to.path
-        addTab({ title: to.meta.title, path: to.path })
+        if (to.meta.cache) {
+            addTab({ title: to.meta.title, path: to.path })
+        }
+        if (to.name === 'reload') {
+            tempUnmountComponentCache(from)
+        }
     })
+
+    // 路由更新之后
 
     // 初始化标签导航列表
     function inittabList() {
@@ -93,4 +100,27 @@ export function useTabList() {
         removeTab,
         handleClose
     }
+}
+
+/**
+ * 临时卸载组件缓存
+ */
+function tempUnmountComponentCache(routerObj: any) {
+    const componentName = getComponentName(routerObj)
+    // 临时卸载组件缓存
+    useRouterStore().pushKeepAlive(componentName)
+    setTimeout(() => {
+        useRouterStore().popKeepAlive(componentName)
+    })
+}
+/**
+ * 根据当前路由对象返回组件名称
+ * @param routeObj
+ * @returns
+ */
+function getComponentName(routeObj: any) {
+    const fullPath = routeObj.fullPath
+    const pathList = routeObj.matched
+    const target = pathList.find((item: any) => item.path === fullPath)
+    return target.components.default.name
 }

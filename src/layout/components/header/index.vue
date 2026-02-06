@@ -3,6 +3,11 @@
         <!-- 面包屑 -->
         <div class="breadcrumb">
             <div class="tools">
+                <!-- 收藏夹 -->
+                <div class="like-icon">
+                    <SvgIcon name="like" size="20px" />
+                </div>
+
                 <Breadcrumb />
             </div>
             <div class="right-wrap">
@@ -46,11 +51,11 @@ const handleClick = (e) => {
     }
 }
 </script>
-<style scoped lang="scss">
-@use '../../layout';
+<style scoped lang="less">
+@import '../../layout.less';
 .header {
     .breadcrumb {
-        height: layout.$header-height;
+        height: @header-height;
         width: 100%;
         background: var(--td-bg-color-container);
         display: flex;
@@ -86,5 +91,17 @@ const handleClick = (e) => {
 .right-wrap {
     display: flex;
     align-items: center;
+}
+
+.like-icon {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+        transform: scale(1.15);
+    }
+    color: var(--td-text-color-secondary);
 }
 </style>

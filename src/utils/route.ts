@@ -110,5 +110,5 @@ export function findParentRoute(path, list = [], result = []) {
 export function generateMenus(routes: any[]) {
     // 平铺根路由
     const rootChildren = routes.find((item: any) => item.path === '/')
-    return rootChildren.children
+    return rootChildren.children.filter((item: any) => item.meta.isShow)
 }

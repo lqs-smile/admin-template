@@ -39,7 +39,7 @@ const { activeTab, tabList, clickTab, removeTab, handleClose } = useTabList()
 onMounted(() => {})
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .delete-icon {
     fill: currentColor;
     margin-left: 8px !important;

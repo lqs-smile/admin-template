@@ -43,13 +43,7 @@
             <!-- 记住密码 -->
 
             <t-form-item>
-                <t-button
-                    :loading="loading"
-                    class="login-btn"
-                    size="large"
-                    theme="primary"
-                    type="submit"
-                    block
+                <t-button :loading="loading" size="large" theme="primary" type="submit" block
                     >登录</t-button
                 >
             </t-form-item>
@@ -131,7 +125,7 @@ const loginSuccess = (data) => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .login-btn {
     background: linear-gradient(136deg, #3f97ee 0%, #006dda 100%);
     box-shadow: var(--td-shadow-3);

@@ -27,6 +27,8 @@ defineComponent({
 
 const routes = computed(() => {
     const filterRoutes = filterRouters(router.getRoutes())
+    console.log(filterRoutes, 'filterRoutes')
+    console.log(generateMenus(filterRoutes), 'generateMenus(filterRoutes)')
     return generateMenus(filterRoutes)
 })
 
@@ -41,7 +43,6 @@ console.log(expanded.value, 'expanded')
 watch(
     () => route.name,
     () => {
-        console.log(route.name, 'route.name')
         expanded.value = route.path.split('/')
         defaultActive.value = route.name
     }
@@ -85,20 +86,8 @@ watch(
 const collapsed = ref(false)
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .menu-list {
     flex: 1;
-    // background: #192b3d !important;
-    // .menu-item {
-    //     height: 64px;
-    //     line-height: 64px;
-    //     padding-left: 24px;
-    //     color: #fff;
-
-    //     .menu-item:hover {
-    //         background: #003366;
-    //     }
-    // }
-    // --td-bg-color-container: #192b3d;
 }
 </style>

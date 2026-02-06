@@ -20,7 +20,7 @@
                             <!-- 过渡动画 -->
                             <Transition name="fade" mode="out-in">
                                 <!-- 页面缓存 -->
-                                <KeepAlive :max="10">
+                                <KeepAlive :exclude="excludeCachePages" :max="10">
                                     <component :is="Component"></component>
                                 </KeepAlive>
                             </Transition>
@@ -37,9 +37,14 @@ import Menu from './components/menu/index.vue'
 import Header from './components/header/index.vue'
 import Loading from './components/loading.vue'
 import { computedExpanded } from '@/hooks/layout'
+import { useRouterStore } from '@/store/router'
+import { computed, watch } from 'vue'
+const routerStore = useRouterStore()
+
+const excludeCachePages = computed(() => routerStore.excludeCachePages)
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .layout-content {
     display: flex;
     height: 100%;
@@ -67,11 +72,11 @@ import { computedExpanded } from '@/hooks/layout'
         .router-view {
             box-sizing: border-box;
             height: 100%;
-            padding: 20px;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             .container {
-                background-color: var(--td-bg-color-container);
-                height: 100%;
+                padding: 20px 16px 0;
+                box-sizing: border-box;
             }
         }
     }
@@ -80,8 +85,8 @@ import { computedExpanded } from '@/hooks/layout'
 @keyframes fadeInLeft {
     from {
         opacity: 0;
-        -webkit-transform: translate3d(-5%, 0, 0);
-        transform: translate3d(-5%, 0, 0);
+        -webkit-transform: translate3d(-3%, 0, 0);
+        transform: translate3d(-3%, 0, 0);
     }
 
     to {
@@ -98,8 +103,8 @@ import { computedExpanded } from '@/hooks/layout'
 
     to {
         opacity: 0;
-        -webkit-transform: translate3d(5%, 0, 0);
-        transform: translate3d(5%, 0, 0);
+        -webkit-transform: translate3d(3%, 0, 0);
+        transform: translate3d(3%, 0, 0);
     }
 }
 

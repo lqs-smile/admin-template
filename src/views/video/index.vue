@@ -77,12 +77,16 @@
                 </t-space>
             </t-form-item>
         </t-form>
+        <div class="sticky-top">测试吸顶效果</div>
+        <div style="height: 1500px; border: 1px solid red"></div>
     </div>
 </template>
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { MessagePlugin } from 'tdesign-vue-next'
-
+defineOptions({
+    name: 'Video'
+})
 const form = ref(null)
 const formData = reactive({
     account: '',
@@ -175,8 +179,17 @@ const handleClear = () => {
 .demo-select-base {
     width: 300px;
 }
+.sticky-top {
+    position: sticky;
+    top: 0;
+    background-color: var(--td-bg-color-container);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
 .video-container {
     padding: 20px;
     box-sizing: border-box;
+    background-color: var(--td-bg-color-container);
 }
 </style>
