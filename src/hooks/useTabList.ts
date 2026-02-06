@@ -13,7 +13,7 @@ export function useTabList() {
     onBeforeRouteUpdate((to, from) => {
         activeTab.value = to.path
         if (to.meta.cache) {
-            addTab({ title: to.meta.title, path: to.path })
+            addTab({ icon: to.meta.icon, title: to.meta.title, path: to.path })
         }
         if (to.name === 'reload') {
             tempUnmountComponentCache(from)
