@@ -117,6 +117,7 @@ onMounted(() => {})
             border-radius: 0px 0px 14px 0px;
         }
         & > .tag-item {
+            background-color: var(--td-bg-color-secondarycontainer-hover);
             &::after {
                 content: '';
                 position: absolute;
@@ -156,10 +157,6 @@ onMounted(() => {})
 
     background-color: var(--td-bg-color-secondarycontainer);
     color: var(--td-text-color-secondary);
-
-    &:hover {
-        background-color: var(--td-bg-color-secondarycontainer-hover);
-    }
 }
 .active {
     color: var(--td-brand-color) !important;
