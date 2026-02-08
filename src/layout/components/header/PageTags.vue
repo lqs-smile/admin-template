@@ -2,46 +2,35 @@
     <div class="page-tags">
         <div class="page-tags-content">
             <div
-                class="active-borther-left"
-                style="
-                    width: 16px;
-                    height: 100%;
-                    background-color: var(--td-bg-color-secondarycontainer);
-                "
-            ></div>
-            <div
+                class="tag-item-wrap"
                 @click="clickTab(tag)"
                 :key="tag.path"
                 v-for="tag in tabList"
-                class="tag-item"
                 :class="{
-                    active: tag.path === activeTab,
-                    'active-borther-left': tag.path === activeTabLeft,
-                    'active-borther-right': tag.path === activeTabRight
+                    factive: tag.path === activeTab
                 }"
             >
-                <SvgIcon :name="tag.icon" className="tagIcon" size="14px" />
-                <span>
-                    {{ tag.title }}
-                </span>
-                <div class="delWrap">
-                    <SvgIcon
-                        v-if="tabList.length > 1"
-                        name="delete"
-                        className="delete-icon"
-                        size="13px"
-                        @click.stop="removeTab(tag.path)"
-                    />
+                <div
+                    class="tag-item"
+                    :class="{
+                        active: tag.path === activeTab
+                    }"
+                >
+                    <SvgIcon :name="tag.icon" className="tagIcon" size="14px" />
+                    <span>
+                        {{ tag.title }}
+                    </span>
+                    <div class="delWrap">
+                        <SvgIcon
+                            v-if="tabList.length > 1"
+                            name="delete"
+                            className="delete-icon"
+                            size="13px"
+                            @click.stop="removeTab(tag.path)"
+                        />
+                    </div>
                 </div>
             </div>
-            <div
-                class="active-borther-right"
-                style="
-                    flex: 1;
-                    height: 100%;
-                    background-color: var(--td-bg-color-secondarycontainer);
-                "
-            ></div>
         </div>
     </div>
 </template>
@@ -59,22 +48,6 @@ import { computed, onMounted } from 'vue'
 */
 const { activeTab, tabList, clickTab, removeTab, handleClose } = useTabList()
 
-const activeTabLeft = computed(() => {
-    const curIndex = tabList.value.findIndex((item) => item.path === activeTab.value)
-    if (curIndex > 0) {
-        return tabList.value[curIndex - 1].path
-    }
-    return null
-})
-
-const activeTabRight = computed(() => {
-    const curIndex = tabList.value.findIndex((item) => item.path === activeTab.value)
-    if (curIndex < tabList.value.length - 1) {
-        return tabList.value[curIndex + 1].path
-    }
-    return null
-})
-
 console.log(tabList.value, 'tabList.value')
 console.log(activeTab.value, 'activeTab.value')
 
@@ -87,11 +60,11 @@ onMounted(() => {})
     color: var(--td-text-color-secondary);
 }
 .page-tags {
-    box-sizing: border-box;
+    // box-sizing: border-box;
     width: 100%;
     background-color: var(--td-bg-color-secondarycontainer);
     height: 44px;
-    padding: 0px 0px 0;
+    padding: 8px 0px 0;
 }
 .delWrap {
     margin-left: 4px;
@@ -111,9 +84,59 @@ onMounted(() => {})
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: var(--td-brand-color-light) !important;
+    // background-color: var(--td-brand-color-light) !important;
     display: flex;
     align-items: center;
+}
+.tag-item-wrap {
+    height: 100%;
+    padding: 0 14px;
+    position: relative;
+    &:hover {
+        &::after {
+            z-index: 99;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 14px;
+            height: 100%;
+            background-color: var(--td-bg-color-secondarycontainer);
+
+            border-radius: 0px 0px 0px 14px;
+        }
+        &::before {
+            content: '';
+            z-index: 99;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 14px;
+            height: 100%;
+            background-color: var(--td-bg-color-secondarycontainer);
+            border-radius: 0px 0px 14px 0px;
+        }
+        & > .tag-item {
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: -14px;
+                width: 14px;
+                height: 100%;
+                background-color: var(--td-bg-color-secondarycontainer-hover);
+            }
+            &::before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: -14px;
+                width: 14px;
+                height: 100%;
+                background-color: var(--td-bg-color-secondarycontainer-hover);
+            }
+        }
+    }
 }
 .tag-item {
     position: relative;
@@ -139,19 +162,79 @@ onMounted(() => {})
     }
 }
 .active {
-    border-radius: 14px 14px 0px 0px;
     color: var(--td-brand-color) !important;
     background-color: var(--td-brand-color-light) !important;
     // border-color: var(--td-brand-color-2);
     & > .delWrap > .delete-icon {
         color: var(--td-brand-color);
     }
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: -14px;
+        width: 14px;
+        height: 100%;
+        background-color: var(--td-brand-color-light) !important;
+    }
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -14px;
+        width: 14px;
+        height: 100%;
+        background-color: var(--td-brand-color-light) !important;
+    }
 }
-.active-borther-left {
-    border-radius: 0px 0px 14px 0px;
+.fhover {
+    &::after {
+        z-index: 99;
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 14px;
+        height: 100%;
+        background-color: red;
+
+        border-radius: 0px 0px 0px 14px;
+    }
+    &::before {
+        content: '';
+        z-index: 99;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 14px;
+        height: 100%;
+        background-color: red;
+        border-radius: 0px 0px 14px 0px;
+    }
 }
-.active-borther-right {
-    border-radius: 0px 0px 0px 14px;
-    overflow: hidden;
+.factive {
+    &::after {
+        z-index: 99;
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 14px;
+        height: 100%;
+        background-color: var(--td-bg-color-secondarycontainer);
+
+        border-radius: 0px 0px 0px 14px;
+    }
+    &::before {
+        content: '';
+        z-index: 99;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 14px;
+        height: 100%;
+        background-color: var(--td-bg-color-secondarycontainer);
+        border-radius: 0px 0px 14px 0px;
+    }
 }
 </style>
