@@ -12,19 +12,51 @@
             </div>
             <div class="right-wrap">
                 <Setting />
-                <t-dropdown
-                    :options="[
-                        { content: '退出登录', value: 'logout' },
-                        { content: '个人中心', value: 'userCenter' }
-                    ]"
-                    trigger="hover"
-                    @click="handleClick"
-                >
+
+                <t-popup placement="top-right" showArrow>
+                    <template #content>
+                        <div class="userInfo-wrap">
+                            <div class="info">
+                                <div class="userName">
+                                    <div class="userName-text">
+                                        {{ useUserStore().userInfo.userName }}
+                                    </div>
+                                    <t-tag theme="success" variant="light">管理员</t-tag>
+                                </div>
+                                <div class="userEmail">
+                                    {{ useUserStore().userInfo.userEmail || 'Admin@kbj.com' }}
+                                </div>
+                            </div>
+                            <div class="setting">
+                                <div
+                                    v-for="item in settingList"
+                                    :key="item.path"
+                                    class="setting-item"
+                                >
+                                    <div className="setting-left">
+                                        <SvgIcon :name="item.icon" size="16px" />
+                                        <span>{{ item.name }}</span>
+                                    </div>
+                                    <SvgIcon name="right" size="14px" />
+                                </div>
+                            </div>
+                            <div class="loginout">
+                                <t-button
+                                    theme="default"
+                                    size="medium"
+                                    @click="handleClick('logout')"
+                                >
+                                    <SvgIcon className="loginout-icon" name="loginout" size="20px" />
+                                    退出登录
+                                </t-button>
+                            </div>
+                        </div>
+                    </template>
                     <div class="user">
                         <span>{{ useUserStore().userInfo.userName }} </span>
-                        <SvgIcon name="down" size="12px" />
+                        <SvgIcon className="down-icon" name="down" size="24px" />
                     </div>
-                </t-dropdown>
+                </t-popup>
             </div>
         </div>
         <!-- 页签 -->
@@ -50,6 +82,19 @@ const handleClick = (e) => {
         useUserStore().logout()
     }
 }
+
+const settingList = [
+    {
+        name: '个人中心',
+        icon: 'user',
+        path: '/user-center'
+    },
+    {
+        name: '修改密码',
+        icon: 'openLock',
+        path: '/user-setting'
+    }
+]
 </script>
 <style scoped lang="less">
 @import '../../layout.less';
@@ -81,7 +126,7 @@ const handleClick = (e) => {
     display: flex;
     align-items: center;
     & > span {
-        margin-right: 8px;
+        margin-right: 4px;
         font-weight: 500;
         font-size: 16px;
         color: var(--td-text-color-primary);
@@ -103,5 +148,64 @@ const handleClick = (e) => {
         transform: scale(1.15);
     }
     color: var(--td-text-color-secondary);
+}
+.down-icon {
+    color: var(--td-text-color-secondary);
+}
+.userInfo-wrap {
+    width: 180px;
+    padding: 8px;
+    background-color: var(--td-bg-color-container);
+}
+.info {
+    .userName {
+        font-weight: 500;
+        font-size: 16px;
+        color: var(--td-text-color-primary);
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .userName-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+    }
+    .userEmail {
+        margin-top: 4px;
+        font-weight: 400;
+        font-size: 14px;
+        color: var(--td-text-color-secondary);
+        line-height: 24px;
+    }
+}
+.setting {
+    padding: 20px 0;
+    .setting-item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s ease-in-out;
+        &:hover {
+            background-color: var(--td-bg-color-secondarycontainer);
+        }
+        .setting-left {
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            font-size: 18px;
+        }
+    }
+}
+.loginout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

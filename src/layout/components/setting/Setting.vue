@@ -37,6 +37,7 @@
                 />
             </div>
         </t-space>
+        <HotKey />
     </div>
 </template>
 
@@ -45,6 +46,7 @@ import { onMounted, computed, ref } from 'vue'
 import { useConfigStore } from '@/store/config'
 import SvgIcon from '@/components/svg-icon.vue'
 import ColorPiker from '@/layout/components/colorPiker/ColorPiker.vue'
+import HotKey from '@/layout/components/setting/HotKey.vue'
 const store = useConfigStore()
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
@@ -126,6 +128,16 @@ const refreshIconRotate = ref(false)
     padding: 6px 12px;
     border-radius: 16px;
     background-color: var(--td-bg-color-secondarycontainer);
+
+    &:hover {
+        color: var(--td-brand-color);
+        & > svg {
+            color: var(--td-brand-color);
+        }
+        & > .hotkey {
+            color: var(--td-brand-color);
+        }
+    }
 
     .search-text {
         margin: 0 8px;

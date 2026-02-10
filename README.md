@@ -37,3 +37,7 @@ src/
     ├── use-user-profile.js    # JS文件：kebab-case
     └── useProductApi.js      # 或者 camelCase
 ```
+
+## svg图标从fonticon获取
+
+注意：要添加到项目中去除颜色

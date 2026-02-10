@@ -16,7 +16,7 @@
                         active: tag.path === activeTab
                     }"
                 >
-                    <SvgIcon :name="tag.icon" className="tagIcon" size="14px" />
+                    <SvgIcon :name="tag.icon" className="tagIcon" size="16px" />
                     <span>
                         {{ tag.title }}
                     </span>
