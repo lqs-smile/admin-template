@@ -1,10 +1,11 @@
 <template>
     <t-dialog
+        @Close="emit('offVisible')"
         width="600px"
         :header="false"
         :footer="false"
         :closeBtn="false"
-        v-model:visible="visible"
+        v-model:visible="props.visible"
         class="hotkey-dialog"
     >
         <div class="hotkey-container">
@@ -19,20 +20,34 @@
                         v-model="searchText"
                         placeholder="支持URL和菜单名称"
                     ></t-input>
-                    <div class="del-icon-wrap">
+                    <div class="del-icon-wrap" @click="emit('offVisible')">
                         <SvgIcon size="16px" name="hotkey-delete"></SvgIcon>
                     </div>
                 </div>
             </div>
-            <div class="hotkey-list-wrap"></div>
+            <div class="hotkey-list-wrap">
+                <template v-if="searchHistoryList.length > 0">
+                    <div class="hotkey-list-item" v-for="item in searchHistoryList" :key="item">
+                        {{ item }}
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="hotkey-list-noData">
+                        <div class="hotkey-list-noData-content">
+                            <SvgIcon size="32px" name="hotkey-smile"></SvgIcon>
+                            <span>输入你要搜索的导航</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
             <div class="hotkey-handle-wrap">
-                <t-space :size="12" align="center" separator="|">
+                <t-space :size="6" align="center" separator="|">
                     <div class="hotkey-handle-item" v-for="item in handleBtnList" :key="item.label">
                         <div class="handle-icon" v-for="icon in item.icon">
                             <SvgIcon
                                 class="hotkey-handle-icon"
                                 :key="icon"
-                                size="16px"
+                                size="14px"
                                 :name="icon"
                             ></SvgIcon>
                         </div>
@@ -47,7 +62,13 @@
 <script setup>
 import SvgIcon from '@/components/svg-icon.vue'
 import { onMounted, ref } from 'vue'
-const visible = ref(true)
+const props = defineProps({
+    visible: {
+        type: Boolean,
+        default: false
+    }
+})
+const emit = defineEmits(['offVisible'])
 const searchText = ref('')
 const handleBtnList = [
     {
@@ -83,6 +104,7 @@ const handleBtnList = [
         }
     }
 ]
+const searchHistoryList = ref([])
 onMounted(() => {})
 </script>
 <style lang="less">
@@ -142,7 +164,7 @@ onMounted(() => {})
             padding: 6px;
             border-radius: 50%;
             background-color: var(--td-bg-color-secondarycontainer);
-            box-shadow: var(--td-shadow-1);
+            // box-shadow: var(--td-shadow-1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,6 +181,24 @@ onMounted(() => {})
         max-height: 450px;
         border-top: 1px solid var(--td-border-level-1-color);
         border-bottom: 1px solid var(--td-border-level-1-color);
+        .hotkey-list-noData {
+            height: 168px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .hotkey-list-noData-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                & > span {
+                    margin-top: 16px;
+                    font-size: 14px;
+                    color: var(--td-text-color-secondary);
+                }
+            }
+        }
     }
     .hotkey-handle-wrap {
         // height: 55px;
@@ -166,7 +206,7 @@ onMounted(() => {})
         // box-sizing: border-box;
         align-items: center;
         justify-content: space-between;
-        padding: 12px 12px;
+        padding: 12px 0px;
         border-radius: 4px;
         transition: background-color 0.2s ease-in-out;
     }
@@ -177,6 +217,8 @@ onMounted(() => {})
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 14px;
+        color: var(--td-text-color-secondary);
         .handle-icon {
             margin-right: 6px;
             border-radius: 8px;
@@ -185,7 +227,7 @@ onMounted(() => {})
         }
         .hotkey-handle-icon {
             margin-right: 0px;
-            color: var(--td-text-color-secondary);
+            color: var(--td-text-color-placeholder);
         }
     }
 }

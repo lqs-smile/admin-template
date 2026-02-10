@@ -2,7 +2,7 @@
     <div class="setting-container">
         <t-space align="center" size="8px">
             <!-- 左侧菜单快捷是搜索 -->
-            <div class="menu-search">
+            <div class="menu-search" @click="visible = true">
                 <SvgIcon className="search-icon" name="search" size="16px" />
                 <span class="search-text">搜索</span>
                 <div class="hotkey">Ctrl<span>k</span></div>
@@ -37,7 +37,7 @@
                 />
             </div>
         </t-space>
-        <HotKey />
+        <HotKey :visible="visible" @offVisible="offVisible" />
     </div>
 </template>
 
@@ -91,6 +91,21 @@ const changeRefresh = (e: any) => {
 }
 // 刷新icon旋转状态
 const refreshIconRotate = ref(false)
+
+// 监听ctrl + k,阻止默认行为
+const visible = ref(false)
+const offVisible = () => {
+    visible.value = false
+}
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault() // 阻止默认行为
+        visible.value = true
+    }
+    if (e.key === 'Escape') {
+        offVisible()
+    }
+})
 </script>
 <style scoped lang="less">
 .setting-container {
