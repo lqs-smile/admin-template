@@ -6,7 +6,7 @@ import { Color } from 'tvision-color'
 
 export const useConfigStore = defineStore('config', {
     state: () => ({
-        isDarkMode: true,
+        isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
         brandTheme: '0052d9', // 主题色
         colorList: {} as any
     }),

@@ -16,6 +16,7 @@ import MenuItem from './MenuItem.vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { filterRouters, generateMenus, findParentRoute } from '@/utils/route'
 import { computedExpanded } from '@/hooks/layout'
+import { useRouterNodeList } from '@/hooks/useRouterInfo'
 const router = useRouter()
 const route = useRoute()
 
@@ -25,12 +26,7 @@ defineComponent({
 
 // ==================== 计算路由表结构 ====================
 
-const routes = computed(() => {
-    const filterRoutes = filterRouters(router.getRoutes())
-    console.log(filterRoutes, 'filterRoutes')
-    console.log(generateMenus(filterRoutes), 'generateMenus(filterRoutes)')
-    return generateMenus(filterRoutes)
-})
+const routes = useRouterNodeList()
 
 // 默认选中
 const defaultActive = ref(route.name)

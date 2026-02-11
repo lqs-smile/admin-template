@@ -42,11 +42,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, onUnmounted } from 'vue'
 import { useConfigStore } from '@/store/config'
 import SvgIcon from '@/components/svg-icon.vue'
 import ColorPiker from '@/layout/components/colorPiker/ColorPiker.vue'
-import HotKey from '@/layout/components/setting/HotKey.vue'
+import HotKey from '@/layout/components/setting/components/hotkey/HotKey.vue'
 const store = useConfigStore()
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
@@ -105,6 +105,11 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         offVisible()
     }
+})
+
+onUnmounted(() => {
+    // 取消监听
+    document.removeEventListener('keydown', () => {})
 })
 </script>
 <style scoped lang="less">

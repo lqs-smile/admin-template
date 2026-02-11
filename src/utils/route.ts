@@ -1,7 +1,11 @@
 import path from 'path'
 
 /**
- * 返回所有子路由
+ * 获取所有路由节点
+ */
+
+/**
+ * 返回所有子路由 （最外层）
  */
 const getChildrenRoutes = (routes) => {
     const result = []
@@ -111,4 +115,35 @@ export function generateMenus(routes: any[]) {
     // 平铺根路由
     const rootChildren = routes.find((item: any) => item.path === '/')
     return rootChildren.children.filter((item: any) => item.meta.isShow)
+}
+
+/**
+ * 扁平化路由
+ */
+
+export function getAllRoutes(router) {
+    const routes = router
+    const result = []
+
+    function flattenRoutes(routes, parentPath = '') {
+        routes.forEach((route) => {
+            const fullPath = parentPath + route.path
+            const routeInfo = {
+                ...route,
+                fullPath: fullPath.startsWith('/') ? fullPath : '/' + fullPath
+            }
+
+            result.push(routeInfo)
+
+            if (route.children && route.children.length) {
+                flattenRoutes(
+                    route.children,
+                    route.path.endsWith('/') ? route.path : route.path + '/'
+                )
+            }
+        })
+    }
+
+    flattenRoutes(routes)
+    return result
 }

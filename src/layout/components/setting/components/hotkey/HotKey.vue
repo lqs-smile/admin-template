@@ -2,6 +2,7 @@
     <t-dialog
         @Close="emit('offVisible')"
         width="600px"
+        autoFocus
         :header="false"
         :footer="false"
         :closeBtn="false"
@@ -15,11 +16,13 @@
                         <SvgIcon size="16px" name="search"></SvgIcon>
                     </div>
                     <t-input
+                        @Change="handleSearch"
                         clearable
+                        :autofocus="autofocus"
                         inputClass="search-input"
                         v-model="searchText"
                         placeholder="支持URL和菜单名称"
-                    ></t-input>
+                    />
                     <div class="del-icon-wrap" @click="emit('offVisible')">
                         <SvgIcon size="16px" name="hotkey-delete"></SvgIcon>
                     </div>
@@ -27,15 +30,22 @@
             </div>
             <div class="hotkey-list-wrap">
                 <template v-if="searchHistoryList.length > 0">
-                    <div class="hotkey-list-item" v-for="item in searchHistoryList" :key="item">
-                        {{ item }}
+                    <div
+                        @click="handleClick(item.path)"
+                        @mouseenter="handleHover(item.path, true)"
+                        @mouseleave="handleHover(item.path, false)"
+                        class="hotkey-list-item"
+                        v-for="item in searchHistoryList"
+                        :key="item.path"
+                    >
+                        <MenuKeyItem :searchText="searchText" :item="item" />
                     </div>
                 </template>
                 <template v-else>
                     <div class="hotkey-list-noData">
                         <div class="hotkey-list-noData-content">
                             <SvgIcon size="32px" name="hotkey-smile"></SvgIcon>
-                            <span>输入你要搜索的导航</span>
+                            <span>{{ searchText || '输入你要搜索的导航' }}</span>
                         </div>
                     </div>
                 </template>
@@ -61,14 +71,30 @@
 
 <script setup>
 import SvgIcon from '@/components/svg-icon.vue'
-import { onMounted, ref } from 'vue'
+import MenuKeyItem from './MenuKeyItem.vue'
+import { onMounted, ref, watch, onUnmounted } from 'vue'
+import { useRouterNodeList } from '@/hooks/useRouterInfo'
+import { useRouterList } from '@/hooks/useRouterInfo'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
     visible: {
         type: Boolean,
         default: false
     }
 })
+watch(
+    () => props.visible,
+    (newVal, oldVal) => {
+        if (newVal) {
+            autofocus.value = true
+        } else {
+            autofocus.value = false
+        }
+    }
+)
 const emit = defineEmits(['offVisible'])
+const autofocus = ref(false)
 const searchText = ref('')
 const handleBtnList = [
     {
@@ -79,14 +105,14 @@ const handleBtnList = [
             visible.value = false
         }
     },
-    {
-        label: '新窗口',
-        icon: ['hotkey-share'],
-        type: 'primary',
-        handler: () => {
-            visible.value = false
-        }
-    },
+    // {
+    //     label: '新窗口',
+    //     icon: ['hotkey-share'],
+    //     type: 'primary',
+    //     handler: () => {
+    //         visible.value = false
+    //     }
+    // },
     {
         label: '切换',
         icon: ['hotkey-up', 'hotkey-down'],
@@ -104,7 +130,77 @@ const handleBtnList = [
         }
     }
 ]
+const routes = useRouterList()
+
+const handleSearch = (searchText) => {
+    console.log(searchText, 'searchText')
+    if (searchText) {
+        searchHistoryList.value = routes.value.filter((item) => {
+            return item.path.includes(searchText) || item.meta?.title.includes(searchText)
+        })
+    } else {
+        searchHistoryList.value = []
+    }
+}
 const searchHistoryList = ref([])
+watch(
+    () => searchHistoryList.value,
+    (newVal, oldVal) => {
+        console.log(newVal, oldVal, 'searchHistoryList')
+    }
+)
+
+const selectCur = ref(0)
+
+document.addEventListener('keydown', (e) => {
+    // 监听上下箭头
+    if (e.key === 'ArrowUp') {
+        if (selectCur.value > 0) {
+            selectCur.value--
+            handleHover(searchHistoryList.value[selectCur.value].path, true)
+        }
+        e.preventDefault() // 阻止默认行为
+    }
+    if (e.key === 'ArrowDown') {
+        if (selectCur.value < searchHistoryList.value.length - 1) {
+            selectCur.value++
+            handleHover(searchHistoryList.value[selectCur.value].path, true)
+        }
+        e.preventDefault() // 阻止默认行为
+    }
+    // 回车
+    if (e.key === 'Enter') {
+        e.preventDefault() // 阻止默认行为
+        console.log(searchHistoryList.value[selectCur.value].path, 'enter')
+        if (searchHistoryList.value[selectCur.value].path) {
+            router.push(searchHistoryList.value[selectCur.value].path)
+            emit('offVisible')
+        }
+    }
+})
+
+onUnmounted(() => {
+    // 取消监听
+    document.removeEventListener('keydown', () => {})
+})
+
+const handleHover = (path, hover) => {
+    searchHistoryList.value.forEach((item, index) => {
+        if (item.path === path) {
+            searchHistoryList.value[index].hover = hover
+            selectCur.value = index
+        } else {
+            searchHistoryList.value[index].hover = false
+        }
+    })
+}
+const handleClick = (path) => {
+    if (path) {
+        router.push(path)
+        emit('offVisible')
+    }
+}
+
 onMounted(() => {})
 </script>
 <style lang="less">
@@ -177,6 +273,8 @@ onMounted(() => {})
         }
     }
     .hotkey-list-wrap {
+        padding: 20px 16px 60px 16px;
+        overflow: auto;
         min-height: 168px;
         max-height: 450px;
         border-top: 1px solid var(--td-border-level-1-color);
@@ -192,12 +290,18 @@ onMounted(() => {})
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
+                & > svg {
+                    margin-right: 0px;
+                }
                 & > span {
                     margin-top: 16px;
                     font-size: 14px;
                     color: var(--td-text-color-secondary);
                 }
             }
+        }
+        .hotkey-list-item {
+            // padding: 0px 16px;
         }
     }
     .hotkey-handle-wrap {

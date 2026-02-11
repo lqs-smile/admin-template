@@ -1,7 +1,7 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useRouterStore } from '@/store/router'
-
+import { filterRouters, generateMenus } from '@/utils/route'
 export function useTabList() {
     const router = useRouter()
     const route = useRoute()
@@ -74,7 +74,6 @@ export function useTabList() {
         }
         activeTab.value = current
         tabList.value = tbs.filter((item) => item.path != path)
-        // setStorage("tabList", tabList.value, "session")
         useRouterStore().setBreadcrumb(tabList.value)
     }
 
