@@ -4,9 +4,24 @@
         <div class="breadcrumb">
             <div class="tools">
                 <!-- 收藏夹 -->
-                <div class="like-icon">
-                    <SvgIcon name="like" size="20px" />
-                </div>
+                <t-popup
+                    style="
+                        padding: 0 !important;
+                        border-radius: 8px !important;
+                        overflow: hidden !important;
+                    "
+                    placement="bottom-right"
+                    trigger="click"
+                >
+                    <template #content>
+                        <Favorite />
+                    </template>
+                    <div class="like-icon">
+                        <t-tooltip content="收藏夹">
+                            <SvgIcon name="like" size="20px" />
+                        </t-tooltip>
+                    </div>
+                </t-popup>
 
                 <Breadcrumb />
             </div>
@@ -46,7 +61,11 @@
                                     size="medium"
                                     @click="handleClick('logout')"
                                 >
-                                    <SvgIcon className="loginout-icon" name="loginout" size="20px" />
+                                    <SvgIcon
+                                        className="loginout-icon"
+                                        name="loginout"
+                                        size="20px"
+                                    />
                                     退出登录
                                 </t-button>
                             </div>
@@ -72,6 +91,7 @@ import Breadcrumb from './Breadcrumb.vue'
 import Setting from '../setting/Setting.vue'
 import PageTags from './PageTags.vue'
 import SvgIcon from '@/components/svg-icon.vue'
+import Favorite from '../favorite/Favorite.vue'
 import { computedExpanded, setExpanded } from '@/hooks/layout'
 import { useUserStore } from '@/store/user'
 
@@ -98,6 +118,12 @@ const settingList = [
 </script>
 <style scoped lang="less">
 @import '../../layout.less';
+:global(.t-popup .t-popup__content) {
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
 .header {
     .breadcrumb {
         height: @header-height;
@@ -207,5 +233,11 @@ const settingList = [
     display: flex;
     align-items: center;
     justify-content: center;
+}
+:deep(.t-popup .t-popup__content) {
+    background-color: red !important;
+    padding: 0 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
 }
 </style>

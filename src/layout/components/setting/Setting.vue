@@ -12,14 +12,14 @@
                 <SvgIcon className="mode-icon" :name="mode ? 'sun' : 'dark'" size="22px" />
             </div>
             <!-- 主题 -->
-            <div class="setting-item">
-                <t-popup position="bottom" showArrow trigger="click">
-                    <template #content>
-                        <ColorPiker />
-                    </template>
+            <t-popup position="bottom" showArrow trigger="click">
+                <template #content>
+                    <ColorPiker />
+                </template>
+                <div class="setting-item">
                     <SvgIcon className="theme-icon" name="theme" size="20px" />
-                </t-popup>
-            </div>
+                </div>
+            </t-popup>
             <!-- 刷新 -->
             <div class="setting-item" @click="changeRefresh">
                 <SvgIcon

@@ -203,24 +203,21 @@ const handleClick = (path) => {
 
 onMounted(() => {})
 </script>
-<style lang="less">
-// :deep(.t-dialog) {
-//     padding: 0px !important;
-// }
-.t-dialog {
+<style scoped lang="less">
+:global(.t-dialog) {
     padding: 0px !important;
     border: none !important;
 }
-.t-dialog__body {
+:global(.t-dialog__body) {
     padding: 0px !important;
     border: none !important;
 }
-.hotkey-dialog {
-    padding: 0px !important;
-}
-.search-input {
+:global(.search-input) {
     border: none !important;
     box-shadow: none !important;
+}
+:global(.hotkey-dialog) {
+    padding: 0px !important;
 }
 
 // 黑夜模式
