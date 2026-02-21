@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { onMounted, defineProps, computed, toRefs } from 'vue'
+import { onMounted, computed, toRefs } from 'vue'
 import SvgIcon from '@/components/svg-icon.vue'
 const props = defineProps({
     item: {
