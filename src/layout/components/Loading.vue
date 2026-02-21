@@ -36,8 +36,8 @@ onMounted(() => {})
     left: 0;
     bottom: 0;
     right: 0;
-    backdrop-filter: blur(4px);
-    background-color: rgba(242, 242, 242, 0.45);
+    backdrop-filter: blur(3px);
+    background-color: var(--td-mask-disabled);
     z-index: 999;
     display: flex;
 }
@@ -60,7 +60,7 @@ onMounted(() => {})
 }
 
 .dark .title {
-    color: #fff;
+    color: var(--td-text-color-primary);
 }
 
 .loader {
@@ -76,7 +76,7 @@ onMounted(() => {})
     width: 48px;
     height: 5px;
     content: '';
-    background: hsl(var(--primary, 210 100% 50%) / 50%);
+    background: var(--kbj-loading-base-color);
     border-radius: 50%;
     animation: shadow-ani 0.5s linear infinite;
 }
@@ -88,7 +88,7 @@ onMounted(() => {})
     width: 100%;
     height: 100%;
     content: '';
-    background: hsl(var(--primary, 210 100% 50%));
+    background: var(--td-brand-color);
     border-radius: 4px;
     animation: jump-ani 0.5s linear infinite;
 }

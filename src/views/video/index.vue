@@ -77,8 +77,7 @@
                 </t-space>
             </t-form-item>
         </t-form>
-        <div class="sticky-top">测试吸顶效果</div>
-        <div style="height: 1500px; border: 1px solid red"></div>
+        <t-calendar class="calendar" />
     </div>
 </template>
 <script setup>
@@ -176,6 +175,9 @@ const handleClear = () => {
 }
 </script>
 <style scoped>
+.calendar {
+    margin-top: 20px;
+}
 .demo-select-base {
     width: 300px;
 }

@@ -1,10 +1,13 @@
 <template>
-    <div class="header">
+    <div class="header" id="#layout-header">
         <!-- 面包屑 -->
         <div class="breadcrumb">
-            <div class="tools">
+            <div id="tools" class="tools">
                 <!-- 收藏夹 -->
                 <t-popup
+                    attach="#tools"
+                    :visible="visible"
+                    @visible-change="visibleChange"
                     style="
                         padding: 0 !important;
                         border-radius: 8px !important;
@@ -14,9 +17,9 @@
                     trigger="click"
                 >
                     <template #content>
-                        <Favorite />
+                        <Favorite @offvisible="offVisible" />
                     </template>
-                    <div class="like-icon">
+                    <div class="like-icon" @click="offVisible">
                         <t-tooltip content="收藏夹">
                             <SvgIcon name="like" size="20px" />
                         </t-tooltip>
@@ -94,8 +97,24 @@ import SvgIcon from '@/components/svg-icon.vue'
 import Favorite from '../favorite/Favorite.vue'
 import { computedExpanded, setExpanded } from '@/hooks/layout'
 import { useUserStore } from '@/store/user'
+import { ref } from 'vue'
 
-onMounted(() => {})
+const visible = ref(false)
+const offVisible = () => {
+    visible.value = !visible.value
+}
+
+const visibleChange = (val, e) => {
+    if (!val && e.trigger === 'document') {
+        visible.value = false
+    }
+}
+
+const tools = ref(null)
+
+onMounted(() => {
+    tools.value = document.getElementById('tools')
+})
 
 const handleClick = (e) => {
     if (e.value === 'logout') {
@@ -118,11 +137,6 @@ const settingList = [
 </script>
 <style scoped lang="less">
 @import '../../layout.less';
-:global(.t-popup .t-popup__content) {
-    padding: 0 !important;
-    border-radius: 8px !important;
-    overflow: hidden !important;
-}
 
 .header {
     .breadcrumb {
@@ -235,7 +249,6 @@ const settingList = [
     justify-content: center;
 }
 :deep(.t-popup .t-popup__content) {
-    background-color: red !important;
     padding: 0 !important;
     border-radius: 8px !important;
     overflow: hidden !important;

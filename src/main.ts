@@ -6,6 +6,9 @@ import store from './store'
 import TDesign from 'tdesign-vue-next'
 import 'virtual:svg-icons-register'
 import { loadingFadeOut } from 'virtual:app-loading'
+import 'default-passive-events'
+
 // 关闭首屏动画
 loadingFadeOut()
+
 createApp(App).use(router).use(store).use(TDesign).mount('#app')

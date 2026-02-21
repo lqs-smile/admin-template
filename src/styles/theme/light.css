@@ -1,4 +1,4 @@
-/* 调色盘 */
+/* 色盘 */
 :root[theme-mode='light'] {
     --kbj-font-white-1: rgba(255, 255, 255, 0.9);
     --kbj-font-white-2: rgba(255, 255, 255, 0.55);
@@ -21,5 +21,8 @@
     --td-text-color-link: var(--td-brand-color-8);
     --kbj-font-color-hover: rgba(255, 255, 255, 0.82);
     --kbj-bg-color-container: #fff;
+    /* 自定义主题色 */
+    --kbj-brand-color-border: var(--td-brand-color-8);
+    /* loading */
+    --kbj-loading-base-color: var(--td-brand-color-5);
 }
-

@@ -3,6 +3,7 @@
 @import './nprogress.css'; /* Progress 进度条样式 */
 @import './scrollbar.css';
 @import './theme';
+@import './custom.css';
 
 #app {
     height: 100vh;

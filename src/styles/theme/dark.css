@@ -1,5 +1,5 @@
 :root[theme-mode='dark'] {
-    /* 自由基 */
+    /* 色盘 */
     --kbj-font-white-1: rgba(255, 255, 255, 0.9);
     --kbj-font-white-2: rgba(255, 255, 255, 0.55);
     --kbj-font-white-3: rgba(255, 255, 255, 0.35);
@@ -15,10 +15,16 @@
     --kbj-text-color-placeholder: var(--kbj-font-white-3);
     --kbj-text-color-disabled: var(--kbj-font-white-4);
     --kbj-text-color-anti: #fff;
-    --kbj-text-color-brand: var(--kbj-brand-color-8); 
+    --kbj-text-color-brand: var(--kbj-brand-color-8);
     --kbj-text-color-link: var(--kbj-brand-color-8);
 
     /* 背景 */
     --kbj-font-color-hover: rgb(51, 54, 57);
     --kbj-bg-color-container: rgb(24, 24, 28);
+
+    /* 自定义主题色 */
+
+    --kbj-brand-color-border: var(--td-brand-color-8);
+    /* loading */
+    --kbj-loading-base-color: var(--td-brand-color-5);
 }

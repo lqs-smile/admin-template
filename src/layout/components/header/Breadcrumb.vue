@@ -1,6 +1,6 @@
 <template>
     <div>
-        <t-breadcrumb :max-item-width="'150'" theme="dark">
+        <t-breadcrumb :max-item-width="'150'">
             <t-breadcrumb-item v-for="item in breadList" :key="item.path">
                 <template #icon>
                     <SvgIcon className="icon" :name="item.meta.icon" size="12px" />
